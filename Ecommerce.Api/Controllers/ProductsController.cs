@@ -22,4 +22,14 @@ public class ProductsController : Controller
         var products = await _mediator.Send(new GetProductsQuery());
         return Ok(products);
     }
+
+    [HttpGet("{id}")]
+    public async Task<ActionResult<Product>> GetProductById(int id)
+    {
+        var product = await _mediator.Send(new GetProductByIdQuery { Id = id });
+
+        if (product == null) return NotFound();
+
+        return Ok(product);
+    }
 }
