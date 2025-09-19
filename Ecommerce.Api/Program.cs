@@ -1,3 +1,4 @@
+using Ecommerce.Application.Features.Products;
 using Ecommerce.Core.Interfaces;
 using Ecommerce.Infrastructure.Data;
 using Ecommerce.Infrastructure.Data.Repositories;
@@ -23,6 +24,8 @@ namespace Ecommerce.Api
             // Add services to the container.
 
             builder.Services.AddControllers();
+
+            builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(GetProductsQueryHandler).Assembly));
 
             var app = builder.Build();
 

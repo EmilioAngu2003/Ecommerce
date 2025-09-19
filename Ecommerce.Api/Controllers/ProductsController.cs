@@ -1,5 +1,6 @@
-﻿using Ecommerce.Core.Entities;
-using Ecommerce.Core.Interfaces;
+﻿using Ecommerce.Application.Features.Products;
+using Ecommerce.Core.Entities;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Ecommerce.Api.Controllers;
@@ -8,17 +9,17 @@ namespace Ecommerce.Api.Controllers;
 [Route("api/[controller]")]
 public class ProductsController : Controller
 {
-    private readonly IRepository<Product> _productRepository;
+    private readonly IMediator _mediator;
 
-    public ProductsController(IRepository<Product> productRepository)
+    public ProductsController(IMediator mediator)
     {
-        _productRepository = productRepository;
+        _mediator = mediator;
     }
 
     [HttpGet]
     public async Task<ActionResult<IReadOnlyList<Product>>> GetProducts()
     {
-        var products = await _productRepository.GetAllAsync();
+        var products = await _mediator.Send(new GetProductsQuery());
         return Ok(products);
     }
 }
