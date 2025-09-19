@@ -23,7 +23,7 @@ public class ProductsController : Controller
         return Ok(products);
     }
 
-    [HttpGet("{id}")]
+    [HttpGet("{id}", Name = "GetProductByIdRoute")]
     public async Task<ActionResult<Product>> GetProductById(int id)
     {
         var product = await _mediator.Send(new GetProductByIdQuery { Id = id });

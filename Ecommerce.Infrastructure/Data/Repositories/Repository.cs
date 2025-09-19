@@ -29,4 +29,10 @@ public class Repository<T> : IRepository<T> where T : class
                                 .Where(predicate)
                                 .ToListAsync();
     }
+
+    public async Task AddAsync(T entity)
+    {
+        _dbContext.Set<T>().Add(entity);
+        await _dbContext.SaveChangesAsync();
+    }
 }

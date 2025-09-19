@@ -9,4 +9,6 @@ public interface IRepository<T>
     public Task<T> GetByIdAsync(int id);
 
     Task<IReadOnlyList<T>> GetAsync(Expression<Func<T, bool>> predicate);
+
+    Task AddAsync(T entity);
 }
