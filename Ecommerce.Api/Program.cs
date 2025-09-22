@@ -2,6 +2,7 @@ using Ecommerce.Application.Features.Products;
 using Ecommerce.Core.Interfaces;
 using Ecommerce.Infrastructure.Data;
 using Ecommerce.Infrastructure.Data.Repositories;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace Ecommerce.Api
@@ -17,6 +18,10 @@ namespace Ecommerce.Api
                 string stringConnection = builder.Configuration.GetConnectionString("DockerConnection");
                 options.UseSqlServer(stringConnection);
             });
+
+            builder.Services.AddIdentity<IdentityUser, IdentityRole>()
+                .AddEntityFrameworkStores<ECommerceDbContext>()
+                .AddDefaultTokenProviders();
 
             // Registrar el repositorio
             builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
