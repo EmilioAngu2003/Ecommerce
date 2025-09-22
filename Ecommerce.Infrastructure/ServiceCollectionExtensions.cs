@@ -1,6 +1,8 @@
 ﻿using Ecommerce.Core.Interfaces;
 using Ecommerce.Infrastructure.Data;
 using Ecommerce.Infrastructure.Data.Repositories;
+using ECommerce.Core.Interfaces;
+using ECommerce.Infrastructure.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -24,6 +26,8 @@ public static class ServiceCollectionExtensions
             .AddDefaultTokenProviders();
 
         services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+
+        services.AddScoped<IEmailService, EmailService>();
 
         return services;
     }
