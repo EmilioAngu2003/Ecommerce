@@ -1,55 +1,64 @@
 using ECommerce.Application;
 using ECommerce.Infrastructure;
+using ECommerce.Infrastructure.Data;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
-namespace Ecommerce.Api;
+var builder = WebApplication.CreateBuilder(args);
 
-public class Program
+builder.Services.AddInfrastructureServices(builder.Configuration);
+builder.Services.AddApplicationServices();
+
+builder.Services.AddControllers();
+
+builder.Services.AddAuthentication(options =>
 {
-    public static void Main(string[] args)
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+    .AddJwtBearer(options =>
     {
-        var builder = WebApplication.CreateBuilder(args);
-
-        builder.Services.AddInfrastructureServices(builder.Configuration);
-        builder.Services.AddApplicationServices();
-
-        builder.Services.AddControllers();
-
-        builder.Services.AddAuthentication(options =>
+        options.TokenValidationParameters = new TokenValidationParameters
         {
-            options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-            options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-        })
-            .AddJwtBearer(options =>
-            {
-                options.TokenValidationParameters = new TokenValidationParameters
-                {
-                    ValidateIssuer = true,
-                    ValidateAudience = true,
-                    ValidateLifetime = true,
-                    ValidateIssuerSigningKey = true,
-                    ValidIssuer = builder.Configuration["Jwt:Issuer"],
-                    ValidAudience = builder.Configuration["Jwt:Audience"],
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
-                };
-            });
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            ValidIssuer = builder.Configuration["Jwt:Issuer"],
+            ValidAudience = builder.Configuration["Jwt:Audience"],
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
+        };
+    });
 
-        builder.Services.AddAuthorization();
+builder.Services.AddAuthorization();
 
-        var app = builder.Build();
+var app = builder.Build();
 
-        // Configure the HTTP request pipeline.
-
-        app.UseHttpsRedirection();
-
-        app.UseAuthentication();
-        app.UseAuthorization();
-
-
-        app.MapControllers();
-
-        app.Run();
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    try
+    {
+        var userManager = services.GetRequiredService<UserManager<IdentityUser>>();
+        var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
+        var logger = services.GetRequiredService<ILogger<ApplicationDbContextSeed>>();
+        await ApplicationDbContextSeed.SeedRolesAndUserAsync(userManager, roleManager, logger);
+    }
+    catch (Exception ex)
+    {
+        var logger = services.GetRequiredService<ILogger<Program>>();
+        logger.LogError(ex, "An error occurred while seeding the database.");
     }
 }
+
+app.UseHttpsRedirection();
+
+app.UseAuthentication();
+app.UseAuthorization();
+
+
+app.MapControllers();
+
+app.Run();
