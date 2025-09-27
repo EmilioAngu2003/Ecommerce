@@ -1,9 +1,11 @@
 using ECommerce.Application;
+using ECommerce.Core.Configuration;
 using ECommerce.Infrastructure;
 using ECommerce.Infrastructure.Data;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
+using System.Security.Claims;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,6 +14,9 @@ builder.Services.AddInfrastructureServices(builder.Configuration);
 builder.Services.AddApplicationServices();
 
 builder.Services.AddControllers();
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddTransient<ClaimsPrincipal>(provider => provider.GetService<IHttpContextAccessor>().HttpContext?.User);
+builder.Services.Configure<FrontEndRoutes>(builder.Configuration.GetSection("FrontEndRoutes"));
 
 builder.Services.AddAuthentication(options =>
 {
