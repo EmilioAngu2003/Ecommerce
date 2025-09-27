@@ -1,5 +1,7 @@
 ﻿using ECommerce.Application.Features.Authentication.Commands;
+using ECommerce.Application.Features.Users.Commands;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ECommerce.Api.Controllers;
@@ -60,5 +62,45 @@ public class AuthController : Controller
         {
             return Unauthorized("Invalid credentials or unconfirmed email.");
         }
+    }
+
+    [HttpPost("send-password-reset-link")]
+    public async Task<IActionResult> SendPasswordResetLink(SendPasswordResetLinkCommand command)
+    {
+        await _mediator.Send(command);
+        return Ok();
+    }
+
+    [HttpPost("reset-password")]
+    public async Task<IActionResult> ResetPassword(ResetPasswordCommand command)
+    {
+        await _mediator.Send(command);
+        return Ok();
+    }
+
+    [Authorize(Roles = "SuperAdmin")]
+    [HttpPost("user")]
+    public async Task<IActionResult> CreateUser(CreateUserCommand command)
+    {
+        await _mediator.Send(command);
+        return Ok();
+    }
+
+    [HttpPost("activate-account")]
+    public async Task<IActionResult> ActivateAccount(ActivateAccountCommand command)
+    {
+        var result = await _mediator.Send(command);
+
+        if (result.Succeeded) return Ok();
+
+        return BadRequest(result.Errors);
+    }
+
+    [Authorize(Roles = "SuperAdmin")]
+    [HttpDelete("user/{userId}")]
+    public async Task<IActionResult> DeleteUser([FromRoute] string userId)
+    {
+        await _mediator.Send(new DeleteUserCommand { UserId = userId });
+        return Ok();
     }
 }
