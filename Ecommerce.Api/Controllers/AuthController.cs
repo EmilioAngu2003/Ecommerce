@@ -19,10 +19,6 @@ public class AuthController : Controller
     [HttpPost("register")]
     public async Task<ActionResult> RegisterUser(RegisterUserCommand command)
     {
-        if (!ModelState.IsValid) return BadRequest(ModelState);
-
-        command.BaseUrl = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host}";
-
         var result = await _mediator.Send(command);
 
         if (result.Succeeded)
@@ -36,18 +32,9 @@ public class AuthController : Controller
         }
     }
 
-    [HttpGet("confirm-email")]
-    public async Task<IActionResult> ConfirmEmail(string userId, string token)
+    [HttpPost("confirm-email")]
+    public async Task<IActionResult> ConfirmEmail(ConfirmEmailCommand command)
     {
-        if (string.IsNullOrEmpty(userId) || string.IsNullOrEmpty(token))
-            return BadRequest("Invalid confirmation link.");
-
-        var command = new ConfirmEmailCommand
-        {
-            UserId = userId,
-            Token = token
-        };
-
         var result = await _mediator.Send(command);
 
         if (result)

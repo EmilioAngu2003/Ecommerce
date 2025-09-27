@@ -1,6 +1,9 @@
-﻿using ECommerce.Core.Interfaces;
+﻿using ECommerce.Application.Interfaces;
+using ECommerce.Core.Configuration;
+using ECommerce.Core.Interfaces;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Options;
 
 namespace ECommerce.Application.Features.Authentication.Commands;
 
@@ -8,11 +11,19 @@ public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand, I
 {
     private readonly UserManager<IdentityUser> _userManager;
     private readonly IEmailService _emailService;
+    private readonly IUrlBuilderService _urlBuilderService;
+    private readonly FrontEndRoutes _frontEndRoutes;
 
-    public RegisterUserCommandHandler(UserManager<IdentityUser> userManager, IEmailService emailService)
+    public RegisterUserCommandHandler(
+        UserManager<IdentityUser> userManager,
+        IEmailService emailService,
+        IUrlBuilderService urlBuilderService,
+        IOptions<FrontEndRoutes> frontEndRoutes)
     {
         _userManager = userManager;
         _emailService = emailService;
+        _urlBuilderService = urlBuilderService;
+        _frontEndRoutes = frontEndRoutes.Value;
     }
 
     public async Task<IdentityResult> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
@@ -29,7 +40,11 @@ public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand, I
         {
             var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
 
-            var confirmationLink = $"{request.BaseUrl}/api/auth/confirm-email?userId={user.Id}&token={Uri.EscapeDataString(token)}";
+            var confirmationLink = _urlBuilderService.CreateLink(_frontEndRoutes.ConfirmEmailUrl)
+                .AddParameter("userId", user.Id)
+                .AddEncodedToken("emailToken", token)
+                .Build();
+
             var emailBody = $"Por favor, confirma tu correo electrónico haciendo clic en el siguiente enlace: {confirmationLink}";
             await _emailService.SendEmailAsync(user.Email, "Confirmación de Correo Electrónico", emailBody);
         }
