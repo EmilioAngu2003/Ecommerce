@@ -1,7 +1,7 @@
-﻿using Ecommerce.Core.Entities;
+﻿using ECommerce.Core.Entities;
 using MediatR;
 
-namespace Ecommerce.Application.Features.Products;
+namespace ECommerce.Application.Features.Products.Commands;
 
 public class CreateProductCommand : IRequest<Product>
 {

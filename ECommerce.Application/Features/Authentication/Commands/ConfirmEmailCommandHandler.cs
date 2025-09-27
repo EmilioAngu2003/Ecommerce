@@ -1,8 +1,7 @@
-﻿using Ecommerce.Application.Features.Authentication;
-using MediatR;
+﻿using MediatR;
 using Microsoft.AspNetCore.Identity;
 
-namespace ECommerce.Application.Users.Commands;
+namespace ECommerce.Application.Features.Authentication.Commands;
 
 public class ConfirmEmailCommandHandler : IRequestHandler<ConfirmEmailCommand, bool>
 {

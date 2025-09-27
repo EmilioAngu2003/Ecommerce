@@ -1,8 +1,8 @@
-﻿using Ecommerce.Core.Interfaces;
+﻿using ECommerce.Core.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
-namespace Ecommerce.Infrastructure.Data.Repositories;
+namespace ECommerce.Infrastructure.Data.Repositories;
 
 public class Repository<T> : IRepository<T> where T : class
 {

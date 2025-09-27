@@ -1,4 +1,4 @@
-﻿namespace Ecommerce.Core.Interfaces;
+﻿namespace ECommerce.Core.Interfaces;
 
 public interface IEntity
 {

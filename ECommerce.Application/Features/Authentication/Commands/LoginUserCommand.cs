@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using System.ComponentModel.DataAnnotations;
 
-namespace Ecommerce.Application.Features.Authentication;
+namespace ECommerce.Application.Features.Authentication.Commands;
 
 public class LoginUserCommand : IRequest<string>
 {

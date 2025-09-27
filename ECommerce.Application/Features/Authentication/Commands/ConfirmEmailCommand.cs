@@ -1,6 +1,6 @@
 ﻿using MediatR;
 
-namespace Ecommerce.Application.Features.Authentication;
+namespace ECommerce.Application.Features.Authentication.Commands;
 
 public class ConfirmEmailCommand : IRequest<bool>
 {

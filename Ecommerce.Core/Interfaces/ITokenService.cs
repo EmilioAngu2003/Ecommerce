@@ -1,6 +1,6 @@
-﻿using Ecommerce.Core.Models;
+﻿using ECommerce.Core.Models;
 
-namespace Ecommerce.Core.Interfaces;
+namespace ECommerce.Core.Interfaces;
 
 public interface ITokenService
 {

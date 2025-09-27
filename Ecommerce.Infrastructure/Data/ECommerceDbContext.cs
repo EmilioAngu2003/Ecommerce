@@ -1,9 +1,9 @@
-﻿using Ecommerce.Core.Entities;
+﻿using ECommerce.Core.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace Ecommerce.Infrastructure.Data;
+namespace ECommerce.Infrastructure.Data;
 
 public class ECommerceDbContext : IdentityDbContext<IdentityUser>
 {

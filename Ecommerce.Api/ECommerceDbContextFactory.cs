@@ -1,8 +1,8 @@
-﻿using Ecommerce.Infrastructure.Data;
+﻿using ECommerce.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 
-namespace Ecommerce.Infrastructure;
+namespace ECommerce.Infrastructure;
 
 public class ECommerceDbContextFactory : IDesignTimeDbContextFactory<ECommerceDbContext>
 {

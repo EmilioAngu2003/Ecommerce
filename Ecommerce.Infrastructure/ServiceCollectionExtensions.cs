@@ -1,7 +1,7 @@
-﻿using Ecommerce.Core.Interfaces;
-using Ecommerce.Infrastructure.Data;
-using Ecommerce.Infrastructure.Data.Repositories;
-using Ecommerce.Infrastructure.Services;
+﻿using ECommerce.Core.Interfaces;
+using ECommerce.Infrastructure.Data;
+using ECommerce.Infrastructure.Data.Repositories;
+using ECommerce.Infrastructure.Services;
 using ECommerce.Core.Interfaces;
 using ECommerce.Infrastructure.Services;
 using Microsoft.AspNetCore.Identity;

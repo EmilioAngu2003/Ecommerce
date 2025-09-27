@@ -1,8 +1,8 @@
-﻿using Ecommerce.Application.Features.Authentication;
+﻿using ECommerce.Application.Features.Authentication.Commands;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Ecommerce.Api.Controllers;
+namespace ECommerce.Api.Controllers;
 
 
 [ApiController]

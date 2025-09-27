@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using System.ComponentModel.DataAnnotations;
 
-namespace Ecommerce.Application.Features.Authentication;
+namespace ECommerce.Application.Features.Authentication.Commands;
 
 public class RegisterUserCommand : IRequest<IdentityResult>
 {

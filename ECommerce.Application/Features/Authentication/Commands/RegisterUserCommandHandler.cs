@@ -2,7 +2,7 @@
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 
-namespace Ecommerce.Application.Features.Authentication;
+namespace ECommerce.Application.Features.Authentication.Commands;
 
 public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand, IdentityResult>
 {

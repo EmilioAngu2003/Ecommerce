@@ -1,9 +1,9 @@
-﻿using Ecommerce.Application.Features.Products;
-using Ecommerce.Core.Entities;
+﻿using ECommerce.Application.Features.Products.Queries;
+using ECommerce.Core.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Ecommerce.Api.Controllers;
+namespace ECommerce.Api.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]

@@ -1,4 +1,4 @@
-﻿namespace Ecommerce.Core.Entities;
+﻿namespace ECommerce.Core.Entities;
 
 public class Product
 {

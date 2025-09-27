@@ -1,10 +1,9 @@
-﻿using Ecommerce.Application.Features.Authentication;
-using Ecommerce.Core.Interfaces;
-using Ecommerce.Core.Models;
+﻿using ECommerce.Core.Interfaces;
+using ECommerce.Core.Models;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 
-namespace ECommerce.Application.Users.Commands;
+namespace ECommerce.Application.Features.Authentication.Commands;
 
 public class LoginUserCommandHandler : IRequestHandler<LoginUserCommand, string>
 {
